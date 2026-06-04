@@ -36,3 +36,11 @@ Why exceptions instead of error messages? Because if I just return `{"error": ".
 If I asked ChatGPT to design these tools, it would give me three search tools or three APIs that all work nicely. It wouldn't create real ambiguity or genuine failure modes because that makes the LLM look bad.
 
 I had to design the hard cases myself. That's the actual work.
+
+## Quick Test Results
+
+I ran the smoke test. Everything works as expected:
+
+- Calculator: `2+2=4`, `10/0` → error (good)
+- NoteStore: Saved "budget = £500", read it back, deleted it (all good)
+- FactLookup: Found Tokyo, Paris, Shakespeare. "best pizza topping" → None (good, no hallucination). "simulate_timeout" → ConnectionError (good, tests graceful failure)
