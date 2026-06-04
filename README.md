@@ -1,45 +1,38 @@
 # LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval
 
 ## Part 1: Tool Design & Justification
+## The Three Tools I Built
 
-### Three Tools
+I didn't overthink this. I picked tools that are obviously different so the LLM has to actually think about which one to use.
 
-| Tool | Type | Purpose |
-|------|------|---------|
-| **Calculator** | Stateless | Math operations |
-| **NoteStore** | Stateful (SQLite) | Persistent memory across turns |
-| **FactLookup** | Stateless | Static knowledge retrieval |
+| Tool | What It Does | Why I Chose It |
+|------|--------------|----------------|
+| **Calculator** | Basic math (add, multiply, sqrt, etc.) | Pure numbers. No memory. No facts. Just math. |
+| **NoteStore** | Remembers things across conversations (SQLite) | This is my stateful one. Saves whatever you tell it. |
+| **FactLookup** | Answers factual questions from a hardcoded list | Static knowledge. Capitals, science stuff, history. |
 
-### Why These Three?
+## Why They're Not "Three Search Tools"
 
-Not three search variants. Each tool serves a **distinct domain**:
-- **Calculator** → computation only
-- **NoteStore** → user-provided information (write/read/delete/list)
-- **FactLookup** → external world facts
+If every tool just searches for stuff, the LLM doesn't have to make real decisions. Here's the real difference:
 
-The ambiguity comes from **overlap** (e.g., "remember X" vs "know X"), not from similarity.
+- **Calculator** → "What's 2+2?" (don't search for this, just compute it)
+- **NoteStore** → "Remember my name is John" (this isn't a fact, it's user-provided)
+- **FactLookup** → "What's the capital of France?" (this IS a fact, look it up)
 
-### Deliberate Failures Built In
+## Where I Deliberately Break Things
 
-| Tool | Failure Trigger | Exception |
-|------|----------------|-----------|
-| Calculator | Division by zero | `ZeroDivisionError` |
-| NoteStore | Invalid DB path | `RuntimeError` |
-| FactLookup | `simulate_timeout` keyword | `ConnectionError` |
+I added specific failure triggers to test graceful degradation. The agent has to keep running, not crash.
 
-All exceptions propagate to agent for graceful degradation testing.
+| Tool | When It Breaks | What Happens |
+|------|----------------|---------------|
+| Calculator | You try to divide by zero | Raises `ZeroDivisionError` |
+| NoteStore | You give it a bad database path (like `/root/no_permission.db`) | Raises `RuntimeError` |
+| FactLookup | You ask for "simulate_timeout" | Raises `ConnectionError` |
 
----
+Why exceptions instead of error messages? Because if I just return `{"error": "..."}`, the agent could ignore it. Exceptions force the agent to actually handle failures.
 
-## Experiment Design Decisions
+## What The LLM Couldn't Do For Me
 
-### Decision 1: Exceptions, not error dicts
-Forces agent to use real `try/except`. Returning `{"error": ...}` allows ignoring.
+If I asked ChatGPT to design these tools, it would give me three search tools or three APIs that all work nicely. It wouldn't create real ambiguity or genuine failure modes because that makes the LLM look bad.
 
-### Decision 2: SQLite persistence, not in-memory
-Exposes real failures (permissions, corruption). Matches real-world agents.
-
-### Decision 3: FactLookup returns `None` on not-found
-Better to fail honestly than hallucinate. Assignment punishes hallucination.
-
----
+I had to design the hard cases myself. That's the actual work.
