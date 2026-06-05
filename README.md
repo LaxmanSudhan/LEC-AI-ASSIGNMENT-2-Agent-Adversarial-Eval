@@ -292,3 +292,71 @@ Prompt B was selected for shipping because it matched Prompt A on accuracy (100%
 
 Perfect accuracy across 20 prompts, perfect survival across 22 failure scenarios, and Prompt B shipped for being 0.017 seconds faster.
 
+
+
+## One Thing I Would Do Differently With Another Week
+
+If I had another week, I would **add a fourth tool that is deliberately hard to distinguish from an existing tool** — specifically, a "WeatherTool" that overlaps with FactLookup.
+
+---
+
+### Why This Specifically
+
+My current evaluation scored 100% across all prompts. That sounds good, but it actually tells me my test set wasn't hard enough. The agent never had to make a genuinely difficult trade-off.
+
+The ambiguous prompts I designed (AM-01 through AM-05) were all resolved cleanly by the LLM. It always picked my preferred tool. That means the ambiguity was more theoretical than practical.
+
+With another week, I would force real ambiguity.
+
+---
+
+### What I Would Build: WeatherTool
+
+| Existing Tool | New Tool | Overlap Problem |
+|---------------|----------|-----------------|
+| FactLookup (encyclopaedic facts) | WeatherTool (current conditions) | User asks "What's the temperature in Paris?" — is that a fact (FactLookup) or live data (WeatherTool)? |
+
+Both tools could plausibly answer. FactLookup knows "average temperature in Paris is 15°C". WeatherTool knows "it's 22°C right now". The agent would need to distinguish between *static fact* and *current condition* — a much harder decision than my current ambiguous cases.
+
+---
+
+### How I Would Redesign the Eval
+
+| Current Ambiguous Prompt | Harder Version with WeatherTool |
+|--------------------------|--------------------------------|
+| "What is 20% of my budget?" (note_store vs calculator) | "What is the temperature in Paris?" (fact_lookup vs weather_tool) |
+| "How far is London to Paris?" (fact_lookup vs calculator) | "Should I bring an umbrella tomorrow?" (weather_tool vs abstain) |
+| "Boiling point in Fahrenheit?" (fact_lookup vs calculator) | "What's the record high temperature in Tokyo?" (fact_lookup vs weather_tool) |
+
+The agent would have to reason about *time relevance* — does the user want a historical fact or current data? My current prompts don't test this at all.
+
+---
+
+### What Failure Modes I Would Expect
+
+| Failure | Why It Would Happen |
+|---------|---------------------|
+| Agent calls WeatherTool for "average temperature" | LLM overgeneralizes "temperature" as live data |
+| Agent calls FactLookup for "current weather" | LLM treats all factual-sounding queries as encyclopaedic |
+| Agent calls both tools unnecessarily | Uncertainty leads to over-calling instead of abstaining |
+
+With a WeatherTool, I would have exposed a deeper failure: **the agent cannot distinguish between static facts and dynamic data without explicit prompting.** That's a real architectural limitation of LLM tool selection, not just a wording issue.
+
+---
+
+
+### What I Would Not Change
+
+| Current Decision | Would Keep | Why |
+|------------------|------------|-----|
+| Three-layer degradation tests | Yes | 22 failure scenarios proved crash-proof |
+| SQLite for stateful storage | Yes | Real permission errors exposed real handling |
+| Grok-3-mini over GPT-4 | Yes | Cost matters. 40 eval calls on GPT-4 would be expensive. |
+| Two system prompts comparison | Yes | Prompt B won on speed. That's a real, measurable difference. |
+
+---
+
+### One Line Summary
+
+With another week, I would add a WeatherTool that overlaps with FactLookup to create genuinely hard ambiguous cases because 100% accuracy means my test set wasn't challenging enough, not that my agent is perfect.
+
