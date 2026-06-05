@@ -87,3 +87,51 @@ When a tool fails (division by zero, DB error, timeout), the agent returns a str
 
 The LLM sees this and responds naturally. The agent never crashes.
 
+# Part 3: Graceful Degradation
+
+## What I Tested
+
+I built a test suite that deliberately breaks every tool in every possible way to prove the agent never crashes.
+
+**Three layers of testing:**
+
+| Part | What It Tests | Number of Scenarios |
+|------|---------------|---------------------|
+| **A** | Raw tool failures via `execute_tool()` | 16 |
+| **B** | Full agent loop with bad prompts | 5 |
+| **C** | Chained failure + recovery mid-conversation | 5 turns |
+
+## Part A — Raw Tool Failures (16 tests)
+
+I fed garbage inputs directly to `execute_tool()` and verified it returns `(string, False)` instead of raising exceptions.
+
+
+**Result:** 16/16 passed. `execute_tool()` never raised. Agent would not crash on any of these.
+
+## Part B — Agent Loop Failures (5 tests)
+
+I sent bad prompts through the full `run_agent_turn()` loop and checked:
+- No traceback or crash words in response
+- Agent error is `None` (loop didn't blow up)
+
+
+**Result:** 5/5 passed. The agent responded gracefully every time. No tracebacks. No crashes.
+
+**What I noticed:** The agent's wording varies. For division by zero it said "Division by zero is undefined." For malformed expression it abstained entirely. Still graceful, just different styles.
+
+## Part C — Chained Failure + Recovery
+
+The most important test. A realistic conversation where a tool fails mid-session, then the agent must keep working.
+
+**Conversation flow:**
+
+| Turn | Prompt | Expected | Tool Success | Result |
+|------|--------|----------|--------------|--------|
+| 1 | "Remember my name is Jordan" | note_store | ✓ | Name saved |
+| 2 | "What is 144 divided by 12?" | calculator | ✓ | 12 |
+| 3 | "What is 7 divided by 0?" | calculator | ✗ FAILS | Graceful error |
+| 4 | "What is my name?" | note_store | ✓ | "Jordan" (state intact) |
+| 5 | "What is the capital of Germany?" | fact_lookup | ✓ | "Berlin" |
+
+**Result:** All 5 turns passed. The agent survived a tool failure and continued normally. SQLite state persisted across the failure.
+
