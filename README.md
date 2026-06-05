@@ -3,7 +3,7 @@
 
 ## Why I Picked This Assignment
 
-I worked at Mastercard on an LLM-driven evaluation system. That experience taught me that most AI evaluations are not effecient — because they only test what the model is good at.
+I worked at Mastercard on an LLM-driven evaluation system. That experience taught me that most AI evaluations are not effecient because they only test what the model is good at.
 
 At Mastercard, I built pipelines that processed compliance data. We thought the system was solid. Then we actually stressed it. It hallucinated deadlines. It picked the wrong retrieval tool. It crashed silently.
 
@@ -43,7 +43,7 @@ Throughout this assignment, I made several deliberate choices. For each, I consi
 
 | Alternative | Why I rejected it |
 |-------------|-------------------|
-| Three search variants (web, internal, vector) | Violates "meaningfully different" requirement. The LLM wouldn't need to discriminate — any tool would work. |
+| Three search variants (web, internal, vector) | Violates "meaningfully different" requirement. The LLM wouldn't need to discriminate  any tool would work. |
 | Weather API + Stock API + News API | Too similar (all external APIs). Also requires live internet, making deterministic testing impossible. |
 | File reader + Email sender + Calendar | Over-engineered. SQLite gives me stateful behavior without external dependencies. |
 
@@ -59,7 +59,7 @@ Throughout this assignment, I made several deliberate choices. For each, I consi
 
 | Alternative | Why I rejected it |
 |-------------|-------------------|
-| GPT-4 | Expensive for 40 eval calls. Also too capable — would hide failure modes that cheaper models expose. |
+| GPT-4 | Expensive for 40 eval calls. Also too capable would hide failure modes that cheaper models expose. |
 | GPT-3.5 | Cheaper but function calling is less reliable. I tested and got inconsistent tool selections. |
 | Local LLM (Llama 3) | Too slow. Latency would make the eval impractical (10+ seconds per turn). |
 | Claude | No Grok-like rate limits. xAI gave me 1000 free credits. |
@@ -80,7 +80,7 @@ Throughout this assignment, I made several deliberate choices. For each, I consi
 | A vs B with tiny differences (e.g., wording only) | Wouldn't produce meaningful comparison. My prompts have real philosophical differences. |
 | Three prompts | Two is sufficient. More would just add noise. |
 
-**My reasoning:** Prompt A forces exact refusal phrasing. Prompt B allows conversational responses. I wanted to see if strictness improves accuracy or just slows things down. Turns out — same accuracy, Prompt B is faster.
+**My reasoning:** Prompt A forces exact refusal phrasing. Prompt B allows conversational responses. I wanted to see if strictness improves accuracy or just slows things down. Turns out same accuracy, Prompt B is faster.
 
 ---
 
@@ -96,7 +96,7 @@ Throughout this assignment, I made several deliberate choices. For each, I consi
 | Only test happy paths | Missing the entire point of graceful degradation. |
 | Mock failures instead of real ones | Mocking doesn't prove real exceptions are caught. I used actual division by zero, DB permission errors, and timeout simulations. |
 
-**My reasoning:** The assignment says "build deliberate failures into your eval." I built 22 of them across three layers. The chain test (fail mid-conversation, then recover) is the most realistic — and it passed.
+**My reasoning:** The assignment says "build deliberate failures into your eval." I built 22 of them across three layers. The chain test (fail mid-conversation, then recover) is the most realistic and it passed.
 
 ---
 
@@ -181,7 +181,7 @@ Throughout this assignment, I made several deliberate choices. For each, I consi
 
 ## One Line Takeaway
 
-I chose tools, prompts, and tests that create real ambiguity and failure modes — because the assignment rewards honesty about breaking, not pretending everything worked perfectly.
+I chose tools, prompts, and tests that create real ambiguity and failure modes because the assignment rewards honesty about breaking, not pretending everything worked perfectly.
 
 
 ## Headline Numbers
@@ -316,7 +316,7 @@ With another week, I would force real ambiguity.
 |---------------|----------|-----------------|
 | FactLookup (encyclopaedic facts) | WeatherTool (current conditions) | User asks "What's the temperature in Paris?" — is that a fact (FactLookup) or live data (WeatherTool)? |
 
-Both tools could plausibly answer. FactLookup knows "average temperature in Paris is 15°C". WeatherTool knows "it's 22°C right now". The agent would need to distinguish between *static fact* and *current condition* — a much harder decision than my current ambiguous cases.
+Both tools could plausibly answer. FactLookup knows "average temperature in Paris is 15°C". WeatherTool knows "it's 22°C right now". The agent would need to distinguish between *static fact* and *current condition*  a much harder decision than my current ambiguous cases.
 
 ---
 
@@ -328,7 +328,7 @@ Both tools could plausibly answer. FactLookup knows "average temperature in Pari
 | "How far is London to Paris?" (fact_lookup vs calculator) | "Should I bring an umbrella tomorrow?" (weather_tool vs abstain) |
 | "Boiling point in Fahrenheit?" (fact_lookup vs calculator) | "What's the record high temperature in Tokyo?" (fact_lookup vs weather_tool) |
 
-The agent would have to reason about *time relevance* — does the user want a historical fact or current data? My current prompts don't test this at all.
+The agent would have to reason about *time relevance*  does the user want a historical fact or current data? My current prompts don't test this at all.
 
 ---
 
