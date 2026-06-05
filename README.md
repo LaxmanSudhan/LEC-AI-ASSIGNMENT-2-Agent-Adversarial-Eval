@@ -189,3 +189,67 @@ The ambiguous cases all matched the preferred tool. The LLM never needed to use 
 
 This is good but means I didn't test the edge where both tools would be acceptable — the LLM always picked my preferred choice, so I never saw how it would behave when truly torn between two valid options.
 
+# Part 5: System Prompt Comparison
+
+## What I Did
+
+Ran the same 20 evaluation prompts twice — once with **System Prompt A (Conservative)** and once with **System Prompt B (Exploratory)** — then compared results to decide which to ship.
+
+---
+
+## Experimental Decision
+
+| Decision | Why |
+|----------|-----|
+| Weighted scoring (accuracy 40%, abstention 35%, speed 25%) | Values correctness over speed, but speed still matters |
+| Normalised latency for comparison | Lower latency = better, converted to score |
+| Ties allowed in individual metrics | Overall weighted score determines winner |
+
+---
+
+## Comparison Results
+
+| Metric | Prompt A | Prompt B | Winner |
+|--------|----------|----------|--------|
+| Tool-selection accuracy | 100% | 100% | TIE |
+| Ambiguous routing accuracy | 100% | 100% | TIE |
+| Out-of-scope abstention | 100% | 100% | TIE |
+| Overall accuracy | 100% | 100% | TIE |
+| Mean latency | 2.166s | 2.149s | **B WINS** |
+
+---
+
+## Weighted Scores
+
+| Prompt | Weighted Score |
+|--------|----------------|
+| A (Conservative) | 0.7501 |
+| B (Exploratory) | 0.7521 |
+
+---
+
+## Shipping Decision
+
+**Ship Prompt B (Exploratory)**
+
+**Why:** Both prompts scored perfectly on accuracy and abstention. The tie-breaker was latency — Prompt B was slightly faster (2.149s vs 2.166s). The exploratory prompt's "prefer tools but be conversational" phrasing didn't hurt correctness but produced marginally faster responses.
+
+---
+
+## What I Learned
+
+Both prompts performed identically on correctness — 20/20 correct across all categories. The conservative vs exploratory distinction didn't matter for these specific prompts. A harder ambiguous set might have shown a difference.
+
+---
+
+## Raw Run Data
+
+| Category | Prompt A | Prompt B |
+|----------|----------|----------|
+| Happy path correct | 10/10 | 10/10 |
+| Ambiguous correct | 5/5 | 5/5 |
+| Out-of-scope correct | 5/5 | 5/5 |
+| Total correct | 20/20 | 20/20 |
+| Mean latency | 2.166s | 2.149s |
+
+
