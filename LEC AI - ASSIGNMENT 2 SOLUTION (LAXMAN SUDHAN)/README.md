@@ -1,6 +1,23 @@
-# LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval
+# LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval:
+Assignment 2 - Agent, Adversarial Eval
 
-## Part 1: Tool Design & Justification
+Build a working agent with three tools and an evaluation harness that punishes the behaviour we care about: choosing the wrong tool, hallucinating when no tool fits, and crashing when a tool fails.
+
+Required:
+- 3 tools, at least one stateful (a tiny SQLite or JSON store you read and write across turns is enough). Tools must be meaningfully different - not three variants of search.
+- LLM-driven tool selection (no hand-coded routing if-statements).
+- Graceful degradation: if a tool throws, the agent must keep going, not crash. Build deliberate failures into your eval to verify this.
+- Evaluation harness with 20 prompts:
+  - 10 happy-path prompts, each labelled with the correct tool
+  - 5 ambiguous prompts where two tools could plausibly fire - say which you'd prefer and why
+  - 5 out-of-scope prompts that no tool can answer - the right behaviour is "I can't help with that," not a hallucinated answer
+  Report tool-selection accuracy, out-of-scope abstention rate, and end-to-end latency.
+- Run the eval at least twice with two different system prompts. Show which prompt wins on which dimension. Pick one to ship and justify.
+
+Naming and explaining one observed failure mode is mandatory. "Worked perfectly" is not a valid finding.
+
+
+# Part 1: Tool Design & Justification
 ## The Three Tools I Built
 
 I didn't overthink this. I picked tools that are obviously different so the LLM has to actually think about which one to use.
