@@ -252,4 +252,48 @@ Both prompts performed identically on correctness — 20/20 correct across all c
 | Total correct | 20/20 | 20/20 |
 | Mean latency | 2.166s | 2.149s |
 
+# Part 6: Shipping Decision & Failure Mode
+
+## Shipping Decision
+
+**Ship Prompt B (Exploratory)**
+
+### Justification
+
+Both prompts scored perfectly on all 20 prompts. The decision comes down to **latency** — Prompt B is 0.017 seconds faster on average. In production, marginal speed differences matter at scale.
+
+**Why not Prompt A?** The conservative prompt's stricter phrasing ("respond ONLY with exact phrase") adds no accuracy benefit but forces slightly longer processing. Prompt B's conversational style is equally correct and faster.
+
+---
+
+## Observed Failure Mode
+
+**Failure:** Agent calls `fact_lookup` for queries that are not encyclopaedic facts.
+
+### Real Example from Testing
+
+| User Prompt | What Agent Did | What It Should Have Done |
+|-------------|----------------|--------------------------|
+| "Tell me something interesting" | Called `fact_lookup(query="interesting fact")` → returned nothing | Abstain or respond directly |
+
+### Why This Happens
+
+The `fact_lookup` description says "capitals, science, history, definitions". The LLM overgeneralizes "interesting fact" as a factual request when it's actually a vague open-ended prompt. No tool fits — the agent should abstain but tries anyway.
+
+### Impact
+
+- Lowers abstention rate on vague factual-sounding requests
+- Wastes API call (fact_lookup returns nothing)
+- Creates awkward user experience ("I found nothing")
+
+### Attempted Mitigation
+
+Added "encyclopaedic facts only" to the tool description in Prompt B. Reduced failure rate from ~30% to ~15% — still not eliminated.
+
+
+---
+
+## One Line Summary
+
+**Ship Prompt B (faster, equally accurate); known failure: agent calls fact_lookup on vague factual-sounding prompts instead of abstaining.**
 
