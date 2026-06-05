@@ -135,3 +135,57 @@ The most important test. A realistic conversation where a tool fails mid-session
 
 **Result:** All 5 turns passed. The agent survived a tool failure and continued normally. SQLite state persisted across the failure.
 
+# Part 4: Evaluation Harness
+
+## What I Built
+
+A 20-prompt evaluation harness that tests the agent on three categories:
+
+| Category | Count | Expected |
+|----------|-------|----------|
+| Happy Path | 10 | Correct tool selection |
+| Ambiguous | 5 | Acceptable tool from allowed set |
+| Out of Scope | 5 | Abstain (no tool called) |
+
+---
+
+## Experimental Decisions
+
+| Decision | Why |
+|----------|-----|
+| **Fresh history per prompt** (except HP-05/HP-08) | Isolates tests so one failure doesn't cascade |
+| **Shared history for HP-05 → HP-08** | Tests real stateful memory (save then recall deadline) |
+| **Ambiguous accepts multiple tools** | LLM can choose either; both pass if justified |
+| **Out of scope = zero tool calls** | Any tool call = hallucination attempt = FAIL |
+| **Latency tracked per prompt** | Measures practical performance |
+
+---
+
+## Evaluation Results (System Prompt A)
+
+| Metric | Result |
+|--------|--------|
+| Tool selection accuracy | 10/10 (100%) |
+| Ambiguous accuracy | 5/5 (100%) |
+| Abstention rate | 5/5 (100%) |
+| Overall accuracy | 20/20 (100%) |
+| Mean latency | 2.258 seconds |
+
+---
+
+### Key Finding
+
+The agent scored **perfectly** on all 20 prompts with System Prompt A:
+
+- No wrong tools on happy path
+- No hallucination on out-of-scope prompts
+- Stateful memory (HP-05 → HP-08) worked correctly
+
+---
+
+### One Nuance
+
+The ambiguous cases all matched the preferred tool. The LLM never needed to use the fallback acceptable tool. 
+
+This is good but means I didn't test the edge where both tools would be acceptable — the LLM always picked my preferred choice, so I never saw how it would behave when truly torn between two valid options.
+
