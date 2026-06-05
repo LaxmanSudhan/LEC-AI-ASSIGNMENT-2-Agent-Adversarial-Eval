@@ -1,7 +1,23 @@
 # LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval
 
-### NOTE: Please view my detailed explantion of my approach in the README file uploaded inside the soultion folder named "LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval".
+### NOTE: 
+1. Please view my detailed explantion of my approach in the README file uploaded inside the soultion folder named "LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval".
+2. **my google colab link : https://colab.research.google.com/drive/1ZW7cOiURZ3m7LLyA4eAYBf0wpckYdf4b?usp=sharing**
+3. Please note that I have not included the xAI API key in the repository, as API credentials are confidential and should not be shared according to terms of conditions. The key was stored locally via environment variables during development. Please see below on how to insert key in colab notebook.
 
+FOR API KEY :
+
+To run the project:
+
+-> Obtain an API key from xAI.
+
+-> In Google Colab, open Secrets (key icon in the left sidebar).
+
+-> Create a new secret named GROK_API_KEY and paste your API key as the value.
+
+-> Save the secret and ensure notebook access is enabled.
+
+-> Run the notebook/project normally. The code will automatically read the key from the GROK_API_KEY secret.
 # -> Why I Picked This Assignment
 
 I worked at Mastercard on an LLM-driven evaluation system. That experience taught me that most AI evaluations are not effecient because they only test what the model is good at.
