@@ -44,3 +44,38 @@ I ran the smoke test. Everything works as expected:
 - Calculator: `2+2=4`, `10/0` → error (good)
 - NoteStore: Saved "budget = £500", read it back, deleted it (all good)
 - FactLookup: Found Tokyo, Paris, Shakespeare. "best pizza topping" → None (good, no hallucination). "simulate_timeout" → ConnectionError (good, tests graceful failure)
+
+# Part 2: LLM-Driven Tool Selection
+
+## What I Built
+
+An agent that uses **Grok (xAI)** to decide which tool to call. No if-statements. No keyword routing. The LLM reads tool descriptions and figures it out.
+
+## How I Know There's No Cheating
+
+My code has exactly **zero** of these patterns:
+- `if "math" in prompt`
+- `if "remember" in prompt`  
+- `if "capital" in prompt`
+
+The only decision logic is `tool_choice="auto"`. Grok decides. I just execute what it picks.
+
+## The Agent Loop
+
+User prompt → Grok decides (tool or abstain) → Execute tool → Return result
+
+## Experimental Decisions I Made
+
+### Decision 1: Two System Prompts
+
+| Prompt | Philosophy | Why |
+|--------|------------|-----|
+| **A (Conservative)** | "Always use a tool if it fits. If not, exact refusal phrase." | Tests whether strict rules improve accuracy |
+| **B (Exploratory)** | "Prefer tools. When uncertain, try anyway." | Tests whether flexibility helps ambiguous cases |
+
+I'll compare these in the evaluation harness.
+
+### Decision 2: Grok-3-mini over GPT-4
+
+Why? Because the assignment doesn't specify a model, and Grok's function calling is solid. Also, xAI's API rate limits are generous for testing.
+
