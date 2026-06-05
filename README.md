@@ -1,6 +1,6 @@
 # LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval
 
-### NOTE: Please view my detailed explantion of my approach in the README file uploaded inside the soultion folder.
+### NOTE: Please view my detailed explantion of my approach in the README file uploaded inside the soultion folder named "LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval".
 
 # -> Why I Picked This Assignment
 
