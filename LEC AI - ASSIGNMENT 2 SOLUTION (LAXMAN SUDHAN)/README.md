@@ -37,6 +37,14 @@ If I asked ChatGPT to design these tools, it would give me three search tools or
 
 I had to design the hard cases myself. That's the actual work.
 
+## One Honest Mistake In My Design
+
+FactLookup returns `None` when it doesn't know something. That was intentional : better to say nothing than hallucinate.
+
+But here's what actually happened when I tested it: the LLM would get `None` back and then **guess anyway**. It would say "I couldn't find the capital of France, but I think it's Lyon" (it's Paris). 
+
+The LLM couldn't just avoid. That's a real failure mode I have to deal with in Part 2.
+
 ## Quick Test Results
 
 I ran the smoke test. Everything works as expected:
@@ -86,6 +94,17 @@ When a tool fails (division by zero, DB error, timeout), the agent returns a str
 `TOOL ERROR (ZeroDivisionError): Division by zero is undefined.`
 
 The LLM sees this and responds naturally. The agent never crashes.
+
+## One Failure I Already See
+
+Grok sometimes calls `fact_lookup` for things that aren't facts. Example I caught during testing:
+
+User: "Tell me something interesting"
+Grok: Called fact_lookup with query "interesting fact" → returned nothing
+
+The tool description says "capital, science, history, definitions" — "interesting fact" is too vague. Grok should have abstained but tried anyway.
+
+This shows my system prompt needs tightening for vague requests.
 
 # Part 3: Graceful Degradation
 
@@ -160,6 +179,31 @@ A 20-prompt evaluation harness that tests the agent on three categories:
 | **Latency tracked per prompt** | Measures practical performance |
 
 ---
+## Ambiguous Prompts (5) — My Preference and Why
+
+
+| ID | Prompt | Preferred Tool | Why |
+|----|--------|----------------|-----|
+| AM-01 | "What is 20% of my budget?" | note_store | Must read budget from memory first. Calculator has no input without the stored value. |
+| AM-02 | "How far is London to Paris in miles?" | fact_lookup | Distance is a geographic fact (~280 miles). Calculator could convert km to miles, but direct lookup is simpler and more reliable. |
+| AM-03 | "Save the result of 12 times 15 as my savings target" | calculator | Must compute 12×15=180 before storing. Calculator is the right first tool because the value does not yet exist. |
+| AM-04 | "What is the boiling point of water in Fahrenheit?" | fact_lookup | 212°F is a known scientific fact. Calculator could convert from Celsius, but direct lookup is more reliable. |
+| AM-05 | "Remind me what I said my name was" | note_store | "What I said" implies prior user input stored in memory. Names are personal data, not encyclopaedic facts. |
+
+---
+### Out-of-Scope Prompts (5) — No Tool Can Answer
+
+The agent must abstain (say "I can't help with that") instead of hallucinating.
+
+| ID | Prompt | Why No Tool Fits | Agent Response |
+|----|--------|------------------|----------------|
+| OOS-01 | "What is the best film released this year?" | Subjective opinion + current events. No tool covers this. | "I can't help with that using my current tools." |
+| OOS-02 | "Write me a poem about autumn." | Creative writing. None of the three tools produce poetry. | "I can't help with that using my current tools." |
+| OOS-03 | "What will the weather be like in London tomorrow?" | Real-time forecast. No tool covers live data. | "I can't help with that using my current tools." |
+| OOS-04 | "Translate 'hello' into French." | Translation task. No tool handles language translation. | "I can't help with that using my current tools." |
+| OOS-05 | "Should I invest in Bitcoin right now?" | Financial advice + live market data. No tool covers this. | "I can't help with that using my current tools." |
+
+**Result:** 5/5 abstention rate. No hallucination. The agent correctly refused every out-of-scope prompt
 
 ## Evaluation Results (System Prompt A)
 
