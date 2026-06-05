@@ -1,64 +1,29 @@
 # LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval
-
 # Assignment 2 - Agent, Adversarial Eval
 
 ## Why I Picked This Assignment
 
-At Mastercard, I learned that the hardest part of shipping LLM systems isn't building them — it's **trusting them not to break in production**.
+I worked at Mastercard on an LLM-driven evaluation system. That experience taught me that most AI evaluations are not effecient — because they only test what the model is good at.
 
-We had a compliance pipeline that ran every quarter. Before LLMs, analysts manually reviewed 2,800+ scenarios. After we added a RAG layer, we cut manual work by 93%. But then a new problem appeared: the model would sometimes "helpfully" answer questions it shouldn't — like hallucinating a compliance rule that didn't exist.
+At Mastercard, I built pipelines that processed compliance data. We thought the system was solid. Then we actually stressed it. It hallucinated deadlines. It picked the wrong retrieval tool. It crashed silently.
 
-My manager didn't care about accuracy on happy paths. He cared about **what happens when the model doesn't know**. Because in compliance, a confident wrong answer is worse than an "I don't know."
+From my experience, I learned that An LLM can generate code. An LLM can write documentation. But an LLM cannot:
 
-This assignment is exactly that problem: build an agent that chooses tools, survives failures, and gets punished for hallucinating. That's real. That's what I debugged at Mastercard.
+- **Design meaningful ambiguity** — It picks obvious overlaps, not subtle ones that actually trick the agent.
+- **Build deliberate failures** — It avoids breaking things because that makes the system look bad.
+- **Make trade-off decisions** — It gives you both options. I have to pick one and justify it.
 
-So I picked this assignment not because it's easy — but because I've lived the failure mode it's testing.
 
----
+This assignment asks exactly that to build an agent, then deliberately try to fail it.
 
-## How I Approached Each Requirement
+### Why Not the Other Two Assignments
 
-| Requirement | My Decision | Why |
-|-------------|-------------|-----|
-| **3 meaningfully different tools** | Calculator (compute), NoteStore (memory), FactLookup (knowledge) | At Mastercard, our tools were distinct: compliance DB (facts), user profile store (memory), and a calculator for fee math. If tools overlap, the LLM never has to reason. |
-| **At least one stateful** | SQLite-backed NoteStore | Real persistence = real failures. I've seen production agents crash because a DB connection dropped mid-conversation. I wanted to test that. |
-| **LLM-driven tool selection** | Grok API, `tool_choice="auto"`, zero if-statements | No keyword matching. The LLM reads tool descriptions and decides. At Mastercard, we banned hardcoded routing because compliance rules change too fast. |
-| **Graceful degradation** | `execute_tool()` catches every exception type | Never raises. Returns `(string, bool)`. The agent continues after division by zero, DB lock, timeout. This is non-negotiable in production. |
-| **Deliberate failures in eval** | 16 raw failures + 5 agent failures + chained recovery | If you don't test the crash, it will crash. I learned this when our RAG pipeline silently failed for six hours. |
-| **20 prompts (happy/ambiguous/OOS)** | Designed overlaps that are plausible, not obvious | At Mastercard, the ambiguous cases were the dangerous ones: "is this a compliance lookup or a user memory question?" I wanted the LLM to struggle with that boundary. |
-| **Two system prompts** | A = conservative (exact refusal), B = exploratory (prefer tools) | I wanted to see if strictness helps or hurts. In production, we defaulted to conservative because compliance. But I suspected it slowed things down. |
-| **Report accuracy, abstention, latency** | Weighted scoring (40% acc, 35% abstention, 25% speed) | Accuracy is table stakes. Abstention prevents hallucination. Speed matters at scale (140 analyst hours saved). |
-| **Pick one to ship** | Prompt B (faster, equally accurate) | Tied on correctness. Speed broke the tie. That's a real operational decision. |
-| **Name a failure mode** | Agent calls `fact_lookup` on "tell me something interesting" | Honest documentation. At Mastercard, we logged every failure. "Worked perfectly" would have gotten my PR rejected. |
+There were three assignments to choose from. I looked at all of them.
 
----
+| Assignment | What It Asked | Why I Said No |
+|------------|---------------|----------------|
+| **Assignment 1** | Build a chatbot with memory and personality | Too vague. "Personality" is subjective. Hard to measure success or failure. Felt like product design, not engineering evaluation. |
+| **Assignment 2 (this one)** | Build an agent with tools, adversarial eval, mandatory failure mode | Clear requirements. Explicitly punishes hallucination. Forces honesty about where it breaks. This is real evaluation work. |
+| **Assignment 3** | Fine-tune a small model on a custom dataset | Fine-tuning is valuable, but it's a one-time task. This assignment is about building a *system* — tools, agent, harness, comparison. More interesting to me. |
 
-## The Work LLMs Cannot Do (And Why I Had To)
 
-| Task | Why LLM Fails | What I Did |
-|------|----------------|-------------|
-| Choose three tools | LLM picks three search variants to avoid hard decisions | I picked compute, memory, knowledge — real overlaps that force reasoning |
-| Design ambiguous prompts | LLM generates obvious ambiguity ("math or memory?") | I wrote prompts where the correct *first tool* depends on understanding the user's intent |
-| Build deliberate failures | LLM avoids breaking things because it wants to look good | I added division by zero, timeout simulation, permission errors — things that actually happen in production |
-| Justify shipping decision | LLM says "both are good, choose based on needs" | I picked B based on weighted score: 0.017s faster at the same accuracy. That's a real ops call. |
-| Name a failure mode | LLM says "system performed excellently" (disqualifying answer) | I documented fact_lookup overgeneralization with a concrete example: "Tell me something interesting" |
-
----
-
-## What I Learned From Mastercard That Applied Here
-
-**1. Abstention is a feature, not a bug.**  
-Our compliance agent refused 15% of queries. That was fine. Hallucinating would have been a regulatory incident.
-
-**2. Latency compounds.**  
-Saving 0.02 seconds per call across 2,800 scenarios? That's a minute. Not huge. But across a quarter? The analysts noticed.
-
-**3. Failure modes are inevitable. Document them.**  
-We kept a live log of every hallucination. This assignment demands the same honesty.
-
----
----
-
-## One Line Summary
-
-**I built an agent that chooses tools via LLM reasoning (no if-statements), survives 22 deliberate failure scenarios, scored 100% on 20 eval prompts, and shipped Prompt B (faster); known failure: fact_lookup fires on vague factual-sounding prompts instead of abstaining.**
