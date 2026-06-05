@@ -295,5 +295,6 @@ Added "encyclopaedic facts only" to the tool description in Prompt B. Reduced fa
 
 ## One Line Summary
 
-**Ship Prompt B (faster, equally accurate); known failure: agent calls fact_lookup on vague factual-sounding prompts instead of abstaining.**
+**Ship Prompt B (faster, equally accurate); 
+known failure: agent calls `fact_lookup` on vague factual-sounding prompts instead of abstaining.**
 
