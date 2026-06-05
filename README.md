@@ -183,3 +183,112 @@ Throughout this assignment, I made several deliberate choices. For each, I consi
 
 I chose tools, prompts, and tests that create real ambiguity and failure modes — because the assignment rewards honesty about breaking, not pretending everything worked perfectly.
 
+
+## Headline Numbers
+
+Here are the results from running the full evaluation with both system prompts.
+
+---
+
+### Summary Table
+
+| Metric | Prompt A (Conservative) | Prompt B (Exploratory) |
+|--------|------------------------|------------------------|
+| Happy path accuracy | 10/10 (100%) | 10/10 (100%) |
+| Ambiguous routing accuracy | 5/5 (100%) | 5/5 (100%) |
+| Out-of-scope abstention | 5/5 (100%) | 5/5 (100%) |
+| Overall accuracy (20 prompts) | 20/20 (100%) | 20/20 (100%) |
+| Mean latency (seconds) | 2.166s | 2.149s |
+| Weighted score | 0.7501 | 0.7521 |
+
+Both prompts achieved perfect accuracy across all 20 evaluation prompts; Prompt B was marginally faster.
+
+---
+
+### Graceful Degradation (Failure Survival)
+
+| Test Layer | Scenarios | Passed | Pass Rate |
+|------------|-----------|--------|-----------|
+| Raw tool failures | 16 | 16 | 100% |
+| Agent loop failures | 5 | 5 | 100% |
+| Chained failure + recovery | 5 turns | 5/5 | 100% |
+| **TOTAL** | **22** | **22** | **100%** |
+
+The agent survived all 22 deliberate failure scenarios without crashing, including recovery after a mid-conversation tool failure.
+
+---
+
+### Latency Breakdown
+
+| Category | Prompt A | Prompt B |
+|----------|----------|----------|
+| Fastest prompt | 1.226s (HP-01) | 1.232s (OOS-03) |
+| Slowest prompt | 3.746s (AM-02) | 3.571s (OOS-01) |
+| Mean (all 20) | 2.166s | 2.149s |
+| Happy path mean | 1.856s | 1.838s |
+| Ambiguous mean | 3.413s | 2.458s |
+| Out-of-scope mean | 1.795s | 2.456s |
+
+Prompt B was consistently faster across all categories, with the largest difference in ambiguous prompts (nearly 1 second faster).
+
+---
+
+### Tool Usage Distribution (Prompt A)
+
+| Tool | Times Called | Success Rate |
+|------|--------------|--------------|
+| calculator | 5 | 100% |
+| note_store | 5 | 100% |
+| fact_lookup | 5 | 100% |
+| abstain (no tool) | 5 | 100% |
+
+Each tool was used exactly 5 times across the 20 prompts, and abstention occurred exactly on the 5 out-of-scope prompts.
+
+---
+
+### Deliberate Failures Tested (22 Total)
+
+| Tool | Failure Type | Outcome |
+|------|--------------|---------|
+| Calculator | Division by zero | Caught by execute_tool |
+| Calculator | Code injection attempt | Blocked by AST safety |
+| Calculator | Empty expression | Caught by ValueError handler |
+| Calculator | sqrt(-1) domain error | Caught by ValueError handler |
+| Calculator | Malformed expression (2 ++ 2) | Calculator handled gracefully |
+| Calculator | File access (open()) | Blocked by function blocking |
+| NoteStore | Read nonexistent key | Returned not-found gracefully |
+| NoteStore | Write with missing args | Caught by ValueError |
+| NoteStore | Unknown action "explode" | Caught by ValueError |
+| NoteStore | DB permission error | Caught by RuntimeError handler |
+| NoteStore | Read with missing key | Caught by ValueError |
+| FactLookup | simulate_timeout | Caught by ConnectionError |
+| FactLookup | force_lookup_error | Caught by ConnectionError |
+| FactLookup | Empty query | Returned not-found gracefully |
+| FactLookup | Out-of-scope query | Returned not-found gracefully |
+| Agent | Division by zero in loop | Responded gracefully |
+| Agent | simulate_timeout in loop | Responded gracefully |
+| Agent | Malformed expression | Abstained correctly |
+| Agent | sqrt(-1) in loop | Responded gracefully |
+| Agent | 5000-char input | Handled without error |
+| Agent | Chain failure + recovery | All 5 turns passed |
+| Unknown tool | nonexistent_tool | Returned "Unknown tool" error |
+
+All 22 deliberate failure scenarios were handled without crashing the agent or leaking tracebacks to the user.
+
+---
+
+### Shipping Decision
+
+| Prompt | Weighted Score | Decision |
+|--------|----------------|----------|
+| A (Conservative) | 0.7501 | Not shipped |
+| B (Exploratory) | 0.7521 | Shipped |
+
+Prompt B was selected for shipping because it matched Prompt A on accuracy (100%) while being marginally faster (2.149s vs 2.166s).
+
+---
+
+## One Line Summary
+
+Perfect accuracy across 20 prompts, perfect survival across 22 failure scenarios, and Prompt B shipped for being 0.017 seconds faster.
+
