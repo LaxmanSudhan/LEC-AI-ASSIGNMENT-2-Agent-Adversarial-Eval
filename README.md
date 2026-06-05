@@ -1,7 +1,7 @@
 # LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval
 
 ### NOTE: 
-1. Please view my detailed explantion of my approach in the README file uploaded inside the soultion folder named "LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval".
+1. Please view my **detailed explantion of my approach** in the **README file** uploaded inside the soultion folder named "LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval".
 2. **my google colab link : https://colab.research.google.com/drive/1ZW7cOiURZ3m7LLyA4eAYBf0wpckYdf4b?usp=sharing**
 3. Please note that I have not included the xAI API key in the repository, as API credentials are confidential and should not be shared according to terms of conditions. The key was stored locally via environment variables during development. Please see below on how to insert key in colab notebook.
 
