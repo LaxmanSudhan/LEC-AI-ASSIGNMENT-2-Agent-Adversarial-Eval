@@ -51,7 +51,7 @@ I ran the smoke test. Everything works as expected:
 
 An agent that uses **Grok (xAI)** to decide which tool to call. No if-statements. No keyword routing. The LLM reads tool descriptions and figures it out.
 
-## How I Know There's No Cheating
+## How I Know if its FAIR:
 
 My code has exactly **zero** of these patterns:
 - `if "math" in prompt`
@@ -78,4 +78,12 @@ I'll compare these in the evaluation harness.
 ### Decision 2: Grok-3-mini over GPT-4
 
 Why? Because the assignment doesn't specify a model, and Grok's function calling is solid. Also, xAI's API rate limits are generous for testing.
+
+### Decision 3: Explicit Tool Error Messages
+
+When a tool fails (division by zero, DB error, timeout), the agent returns a structured error:
+
+`TOOL ERROR (ZeroDivisionError): Division by zero is undefined.`
+
+The LLM sees this and responds naturally. The agent never crashes.
 
