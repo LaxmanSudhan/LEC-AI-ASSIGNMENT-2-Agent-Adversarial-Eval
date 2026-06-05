@@ -1,0 +1,749 @@
+{
+  "run_timestamp": "2026-06-05T01:07:12",
+  "prompt_a": {
+    "label": "A",
+    "tool_selection_accuracy": 1.0,
+    "ambiguous_accuracy": 1.0,
+    "abstention_rate": 1.0,
+    "overall_accuracy": 1.0,
+    "mean_latency": 2.166,
+    "counts": {
+      "happy_path": {
+        "correct": 10,
+        "total": 10
+      },
+      "ambiguous": {
+        "correct": 5,
+        "total": 5
+      },
+      "out_of_scope": {
+        "correct": 5,
+        "total": 5
+      },
+      "overall": {
+        "correct": 20,
+        "total": 20
+      }
+    }
+  },
+  "prompt_b": {
+    "label": "B",
+    "tool_selection_accuracy": 1.0,
+    "ambiguous_accuracy": 1.0,
+    "abstention_rate": 1.0,
+    "overall_accuracy": 1.0,
+    "mean_latency": 2.149,
+    "counts": {
+      "happy_path": {
+        "correct": 10,
+        "total": 10
+      },
+      "ambiguous": {
+        "correct": 5,
+        "total": 5
+      },
+      "out_of_scope": {
+        "correct": 5,
+        "total": 5
+      },
+      "overall": {
+        "correct": 20,
+        "total": 20
+      }
+    }
+  },
+  "per_prompt_a": [
+    {
+      "id": "HP-01",
+      "section": "happy_path",
+      "prompt": "What is 847 multiplied by 23?",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "19481",
+      "latency": 1.238,
+      "agent_error": null
+    },
+    {
+      "id": "HP-02",
+      "section": "happy_path",
+      "prompt": "Remember that my favourite colour is blue.",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Got it\u2014I've remembered that your favourite colour is blue.",
+      "latency": 3.15,
+      "agent_error": null
+    },
+    {
+      "id": "HP-03",
+      "section": "happy_path",
+      "prompt": "What is the capital of Japan?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Tokyo.",
+      "latency": 1.596,
+      "agent_error": null
+    },
+    {
+      "id": "HP-04",
+      "section": "happy_path",
+      "prompt": "What is the square root of 256?",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "16",
+      "latency": 1.581,
+      "agent_error": null
+    },
+    {
+      "id": "HP-05",
+      "section": "happy_path",
+      "prompt": "Save my project deadline as 30th June 2026.",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Saved your project deadline as 30th June 2026.",
+      "latency": 2.347,
+      "agent_error": null
+    },
+    {
+      "id": "HP-06",
+      "section": "happy_path",
+      "prompt": "Who invented the telephone?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Alexander Graham Bell (1876)",
+      "latency": 1.892,
+      "agent_error": null
+    },
+    {
+      "id": "HP-07",
+      "section": "happy_path",
+      "prompt": "What is 17% of 3500?",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "595",
+      "latency": 1.603,
+      "agent_error": null
+    },
+    {
+      "id": "HP-08",
+      "section": "happy_path",
+      "prompt": "What did I save as my project deadline?",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Your project deadline is saved as 30th June 2026.",
+      "latency": 1.48,
+      "agent_error": null
+    },
+    {
+      "id": "HP-09",
+      "section": "happy_path",
+      "prompt": "What is the chemical formula for water?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "H\u2082O",
+      "latency": 2.251,
+      "agent_error": null
+    },
+    {
+      "id": "HP-10",
+      "section": "happy_path",
+      "prompt": "Calculate 2 to the power of 10.",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "1024",
+      "latency": 1.247,
+      "agent_error": null
+    },
+    {
+      "id": "AM-01",
+      "section": "ambiguous",
+      "prompt": "What is 20% of my budget?",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store",
+        "calculator"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true,
+        true
+      ],
+      "response": "20% of your budget (\u00a31200) is \u00a3240.",
+      "latency": 2.873,
+      "agent_error": null
+    },
+    {
+      "id": "AM-02",
+      "section": "ambiguous",
+      "prompt": "How far is it from London to Paris in miles?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup",
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true,
+        true
+      ],
+      "response": "I can't help with that using my current tools.",
+      "latency": 3.746,
+      "agent_error": null
+    },
+    {
+      "id": "AM-03",
+      "section": "ambiguous",
+      "prompt": "Save the result of 12 times 15 as my savings target.",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator",
+        "note_store"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true,
+        true
+      ],
+      "response": "Saved 180 as your savings target.",
+      "latency": 3.074,
+      "agent_error": null
+    },
+    {
+      "id": "AM-04",
+      "section": "ambiguous",
+      "prompt": "What is the boiling point of water in Fahrenheit?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "I can't help with that using my current tools.",
+      "latency": 3.415,
+      "agent_error": null
+    },
+    {
+      "id": "AM-05",
+      "section": "ambiguous",
+      "prompt": "Remind me what I said my name was.",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Jordan.",
+      "latency": 3.406,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-01",
+      "section": "out_of_scope",
+      "prompt": "What is the best film released this year?",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "I can't help with that using my current tools.",
+      "latency": 1.673,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-02",
+      "section": "out_of_scope",
+      "prompt": "Write me a poem about autumn.",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "I can't help with that using my current tools.",
+      "latency": 1.282,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-03",
+      "section": "out_of_scope",
+      "prompt": "What will the weather be like in London tomorrow?",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "I can't help with that using my current tools.",
+      "latency": 1.483,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-04",
+      "section": "out_of_scope",
+      "prompt": "Translate 'hello' into French.",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "I can't help with that using my current tools.",
+      "latency": 2.37,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-05",
+      "section": "out_of_scope",
+      "prompt": "Should I invest in Bitcoin right now?",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "I can't help with that using my current tools.",
+      "latency": 1.608,
+      "agent_error": null
+    }
+  ],
+  "per_prompt_b": [
+    {
+      "id": "HP-01",
+      "section": "happy_path",
+      "prompt": "What is 847 multiplied by 23?",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "847 multiplied by 23 is **19,481**.",
+      "latency": 1.57,
+      "agent_error": null
+    },
+    {
+      "id": "HP-02",
+      "section": "happy_path",
+      "prompt": "Remember that my favourite colour is blue.",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Got it! I'll remember that your favourite colour is blue.",
+      "latency": 2.226,
+      "agent_error": null
+    },
+    {
+      "id": "HP-03",
+      "section": "happy_path",
+      "prompt": "What is the capital of Japan?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "The capital of Japan is Tokyo.",
+      "latency": 2.572,
+      "agent_error": null
+    },
+    {
+      "id": "HP-04",
+      "section": "happy_path",
+      "prompt": "What is the square root of 256?",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "The square root of 256 is 16.",
+      "latency": 1.378,
+      "agent_error": null
+    },
+    {
+      "id": "HP-05",
+      "section": "happy_path",
+      "prompt": "Save my project deadline as 30th June 2026.",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Got it\u2014I've saved your project deadline as 30th June 2026. Let me know if you need anything else!",
+      "latency": 2.38,
+      "agent_error": null
+    },
+    {
+      "id": "HP-06",
+      "section": "happy_path",
+      "prompt": "Who invented the telephone?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Alexander Graham Bell is credited with inventing the telephone in 1876.",
+      "latency": 1.844,
+      "agent_error": null
+    },
+    {
+      "id": "HP-07",
+      "section": "happy_path",
+      "prompt": "What is 17% of 3500?",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "595",
+      "latency": 1.42,
+      "agent_error": null
+    },
+    {
+      "id": "HP-08",
+      "section": "happy_path",
+      "prompt": "What did I save as my project deadline?",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "You saved your project deadline as **30th June 2026**.",
+      "latency": 1.672,
+      "agent_error": null
+    },
+    {
+      "id": "HP-09",
+      "section": "happy_path",
+      "prompt": "What is the chemical formula for water?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "The chemical formula for water is **H\u2082O**.",
+      "latency": 1.889,
+      "agent_error": null
+    },
+    {
+      "id": "HP-10",
+      "section": "happy_path",
+      "prompt": "Calculate 2 to the power of 10.",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "2 to the power of 10 is **1024**.",
+      "latency": 1.451,
+      "agent_error": null
+    },
+    {
+      "id": "AM-01",
+      "section": "ambiguous",
+      "prompt": "What is 20% of my budget?",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store",
+        "calculator"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true,
+        true
+      ],
+      "response": "20% of your \u00a31200 budget is \u00a3240.",
+      "latency": 1.875,
+      "agent_error": null
+    },
+    {
+      "id": "AM-02",
+      "section": "ambiguous",
+      "prompt": "How far is it from London to Paris in miles?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "The straight-line distance from London to Paris is approximately 214 miles (344 km). Driving distance via the Eurotunnel or ferry is typically around 290 miles depending on the exact route.",
+      "latency": 2.9,
+      "agent_error": null
+    },
+    {
+      "id": "AM-03",
+      "section": "ambiguous",
+      "prompt": "Save the result of 12 times 15 as my savings target.",
+      "expected_tool": "calculator",
+      "tools_called": [
+        "calculator",
+        "note_store"
+      ],
+      "first_tool": "calculator",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true,
+        true
+      ],
+      "response": "I've calculated 12 \u00d7 15 = 180 and saved it as your savings target.",
+      "latency": 2.805,
+      "agent_error": null
+    },
+    {
+      "id": "AM-04",
+      "section": "ambiguous",
+      "prompt": "What is the boiling point of water in Fahrenheit?",
+      "expected_tool": "fact_lookup",
+      "tools_called": [
+        "fact_lookup"
+      ],
+      "first_tool": "fact_lookup",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "The boiling point of water (at standard atmospheric pressure) is **212\u00b0F** (or 100\u00b0C).",
+      "latency": 2.582,
+      "agent_error": null
+    },
+    {
+      "id": "AM-05",
+      "section": "ambiguous",
+      "prompt": "Remind me what I said my name was.",
+      "expected_tool": "note_store",
+      "tools_called": [
+        "note_store"
+      ],
+      "first_tool": "note_store",
+      "correct": true,
+      "abstained": false,
+      "tool_successes": [
+        true
+      ],
+      "response": "Your name is Jordan.",
+      "latency": 2.129,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-01",
+      "section": "out_of_scope",
+      "prompt": "What is the best film released this year?",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "It's subjective, but based on critical consensus so far this year, films like *Dune: Part Two* or *Challengers* are often cited among the strongest. Check sites like Rotten Tomatoes or Metacritic for the latest rankings!",
+      "latency": 3.571,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-02",
+      "section": "out_of_scope",
+      "prompt": "Write me a poem about autumn.",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "Here's a poem about autumn for you:\n\n**Golden Whisper**\n\nLeaves drift down in russet flight,  \nA whispered hush of fading light.  \nPumpkin spice on every breeze,  \nCrisp and cool through naked trees.  \n\nHarvest moons in amber glow,  \nPaint the hills in fire\u2019s slow.  \nSweaters pulled and fires lit,  \nSummer\u2019s ghost in shadows flit.  \n\nNature tucks her colors deep,  \nPromising the world to sleep\u2014  \nYet in the quiet, beauty stays,  \nA final dance in autumn\u2019s haze.",
+      "latency": 2.466,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-03",
+      "section": "out_of_scope",
+      "prompt": "What will the weather be like in London tomorrow?",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "I'm sorry, but I don't have access to real-time or forecast weather data (or tools for it). For the latest on London's weather tomorrow, I'd recommend checking a reliable source like the Met Office, BBC Weather, or a weather app.",
+      "latency": 1.232,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-04",
+      "section": "out_of_scope",
+      "prompt": "Translate 'hello' into French.",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "Bonjour!",
+      "latency": 2.056,
+      "agent_error": null
+    },
+    {
+      "id": "OOS-05",
+      "section": "out_of_scope",
+      "prompt": "Should I invest in Bitcoin right now?",
+      "expected_tool": null,
+      "tools_called": [],
+      "first_tool": null,
+      "correct": true,
+      "abstained": true,
+      "tool_successes": [],
+      "response": "**I can't give personalized investment advice.** Deciding whether to invest in Bitcoin (or any asset) depends on your individual financial situation, risk tolerance, goals, and market conditions\u2014which I don't have access to.\n\nBitcoin is highly volatile, and its price can swing dramatically based on news, regulation, adoption, and macro factors. What seems like a good time \"right now\" can change quickly.\n\n**General suggestions (not advice):**\n- Do your own research (DYOR) on current market data, historical performance, and Bitcoin's fundamentals.\n- Consider consulting a licensed financial advisor.\n- Only invest what you can afford to lose, and think about diversification.\n\nIf you have a specific factual question about Bitcoin (e.g., how it works, recent news, or technical details), feel free to ask!",
+      "latency": 2.955,
+      "agent_error": null
+    }
+  ]
+}
