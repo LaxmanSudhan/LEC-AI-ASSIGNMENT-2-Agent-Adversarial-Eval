@@ -23,8 +23,8 @@ There were three assignments to choose from. I looked at all of them.
 | Assignment | What It Asked | Why I Said No |
 |------------|---------------|----------------|
 | **Assignment 1** | Build a chatbot with memory and personality | A bit vague. "Personality" is subjective. Hard to measure success or failure. Felt like product design, not engineering evaluation. |
-| **Assignment 2 (my choice)** | Build an agent with tools, adversarial eval, mandatory failure mode | Clear requirements. Explicitly punishes hallucination. Forces honesty about where it breaks. This is real evaluation work. |
-| **Assignment 3** | Fine-tune a small model on a custom dataset | Fine-tuning is valuable, but it's a one-time task. This assignment is about building a *system* — tools, agent, harness, comparison. More interesting to me. |
+| **Assignment 2 (my choice)** | Build an agent with tools, adversarial eval, mandatory failure mode | Clear requirements. Explicitly punishes hallucination. Forces honesty about where it breaks. This is real evaluation work. (More interesting to me) |
+| **Assignment 3** | Fine-tune a small model on a custom dataset | Fine-tuning is valuable, but it's a one-time task. This assignment is about building a *system*: tools, agent, harness, comparison. |
 
 I picked this assignment because it rewards honesty about failure — something I learned to value at Mastercard, and something most AI evaluations actively avoid.
 
