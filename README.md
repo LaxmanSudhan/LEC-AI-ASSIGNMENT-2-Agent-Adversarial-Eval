@@ -1,8 +1,8 @@
 # LEC-AI-ASSIGNMENT-2-Agent-Adversarial-Eval
 
-# NOTE: Please view my detailed explaantion of my approach in the README file uploaded inside the soultion folder.
+### NOTE: Please view my detailed explantion of my approach in the README file uploaded inside the soultion folder.
 
-## -> Why I Picked This Assignment
+# -> Why I Picked This Assignment
 
 I worked at Mastercard on an LLM-driven evaluation system. That experience taught me that most AI evaluations are not effecient because they only test what the model is good at.
 
@@ -30,7 +30,7 @@ There were three assignments to choose from. I looked at all of them.
 I picked this assignment because it rewards honesty about failure — something I learned to value at Mastercard, and something most AI evaluations actively avoid.
 
 
-## -> The Decisions I Made and the Alternatives I Ruled Out
+# -> The Decisions I Made and the Alternatives I Ruled Out
 
 Throughout this assignment, I made several deliberate choices. For each, I considered alternatives and rejected them for specific reasons.
 
@@ -185,7 +185,7 @@ Throughout this assignment, I made several deliberate choices. For each, I consi
 I chose tools, prompts, and tests that create real ambiguity and failure modes because the assignment rewards honesty about breaking, not pretending everything worked perfectly.
 
 
-## -> Headline Numbers
+# -> Headline Numbers
 
 Here are the results from running the full evaluation with both system prompts.
 
@@ -295,7 +295,7 @@ Perfect accuracy across 20 prompts, perfect survival across 22 failure scenarios
 
 
 
-## -> One Thing I Would Do Differently With Another Week
+# -> One Thing I Would Do Differently With Another Week
 
 If I had another week, I would **add a fourth tool that is deliberately hard to distinguish from an existing tool** — specifically, a "WeatherTool" that overlaps with FactLookup.
 
